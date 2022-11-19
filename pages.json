@@ -1,16 +1,47 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
+            "path" : "pages/equipment/equipment",
+            
+        }
+        ,{
+            "path" : "pages/control/control",
+            
+        }
+        ,{
+            "path" : "pages/history/history",
+            
+        },{
+			"path": "pages/login/login",
 		}
-	],
+	    ,
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarTitleText": "智能鱼缸",
+		"navigationBarBackgroundColor": "#00aaff",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"list": [
+			{
+				"text": "控制",
+				"pagePath": "pages/control/control",
+				"selectedIconPath": "static/control-active.png",
+				"iconPath": "static/control.png",
+			},
+			{
+				"text": "数据",
+				"pagePath": "pages/equipment/equipment",
+				"iconPath": "static/data.png",
+				"selectedIconPath": "static/data-active.png"
+			},
+			{
+				"text": "历史",
+				"pagePath": "pages/history/history",
+				"iconPath": "static/history.png",
+				"selectedIconPath": "static/history-active.png"
+			}
+		],
 	}
 }

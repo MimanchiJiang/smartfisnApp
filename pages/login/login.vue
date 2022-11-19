@@ -20,6 +20,7 @@
 				<input @keyup.enter="onLogin" type="password" v-model="login.password" placeholder="密码" />
 				<p v-bind:class="{ error: login.isError }">123123s{{ login.notice }}</p>
 				<div class="button" @click="onLogin" @keydown.enter="onLogin">登录</div>
+				<navigator url="/pages/index/equipment">跳转</navigator>
 			</div>
 		</div>
 	</div>
@@ -85,9 +86,7 @@
 					login.value.notice = "密码长度为6~16个字符";
 					return;
 				}
-				router.push({
-					path: 'doc/equipment'
-				})
+			
 
 			}
 			const close = () => {
