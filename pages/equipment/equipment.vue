@@ -6,9 +6,9 @@
 			<view class="connectStatus">
 				<view>mqtt:</view>
 				<view :class="mqttStatus ? 'mqtt-status-greenCircle' : 'mqtt-status-redCircle'">
-					</view>
+				</view>
 			</view>
-			
+
 		</view>
 		<view class="showData">
 			<view class="showDataQuality">
@@ -36,23 +36,23 @@
 		<view class="control">
 			<view class="controlAuto">
 				自动/手动模式切换
-				<button @click="ModelChange">自动模式</button>
+				<button @click="autoControl"  v-text="modelBtnText"></button>
 				定时喂食
-				<uni-number-box v-model = "feedTime" :min="0" :max="9"></uni-number-box>
+				<uni-number-box v-model="servoTime" :min="0" :max="9"></uni-number-box>
 				<button @click="TimingFeed">点击投喂</button>
 				<view class="reflash">
-					<button @click="Reflash" >刷新</button>
+					<button @click="Reflash">刷新</button>
 				</view>
 			</view>
-		
+
 			<view class="controlManual">
 				<view class=" controlManualContent">
-				灯带开关
-				<button>灯带开关</button>
-				水泵开关
-				<button>水泵开关</button>
+					灯带开关
+					<button @click="lightControl" v-text="lightBtnText"></button>
+					水泵开关
+					<button @click="pumpControl" v-text="pumpBtnText"></button>
 				</view>
-				
+
 			</view>
 		</view>
 	</view>
@@ -77,11 +77,14 @@
 			const temp = ref('')
 			const time = ref('')
 			const timer = ref("")
-			const QualityPop = ref()
-			const TempPop = ref()
 			const mqttStatus = ref('')
 			const autoStatus = ref(true)
-			const feedTime = ref(2)
+			const lightStatus = ref(false)
+			const pumpStatus = ref(false)
+			const servoTime = ref(2)
+			const modelBtnText = ref('自动模式')
+			const lightBtnText = ref('开灯')
+			const pumpBtnText = ref('开水泵')
 
 			onShow(() => {
 				uni.request({
@@ -111,37 +114,83 @@
 					})
 				}, 1000)
 			})
-			
+
 			onHide(() => {
 				clearInterval(timer.value)
 				console.log('定时器被削除了')
 			})
-			
-			const ModelChange = ()=>{
+			//水泵控制
+			const pumpControl = ()=>{
+				console.log("切换前："+pumpStatus.value)
+				pumpStatus.value = !pumpStatus.value
 				uni.request({
-					url:'http://10.149.3.126:8888/autoControl',
+					url:'http://10.149.3.126:8888/pump',
 					method:'POST',
-					data:{
-						autoStatus:autoStatus.value
-					},
-				})
-			}
-			const TimingFeed = ()=>{
-				console.log(feedTime.value)
-				uni.request({
-					url:'http://10.149.3.126:8888/TimingFeed',
-					method:'POST',
-					data:{
-						feedTime:feedTime.value,
-						},
-						header: { 'content-type': 'application/json' },
-					// data:{feedTime:feedTime.value},
-					success(){
-						console.log(`将在${feedTime.value}小时后喂食`)
+					data:JSON.stringify({pump:pumpStatus.value}),
+					success() {
+						if(pumpStatus.value == true){
+							pumpBtnText.value = "关水泵"
+						}else{
+							pumpBtnText.value = "开水泵"
+						}
 					}
 				})
 			}
-			const Reflash = ()=>{
+			//灯带控制
+			const lightControl = () =>{
+				console.log("切换前："+lightStatus.value)
+				lightStatus.value = !lightStatus.value
+				uni.request({
+					url:'http://10.149.3.126:8888/light',
+					method:'POST',
+					data:JSON.stringify({light:lightStatus.value}),
+					success() {
+						if(lightStatus.value == true){
+							lightBtnText.value = "关灯"
+						}else{
+							lightBtnText.value = "开灯"
+						}
+						console.log("切换后："+lightStatus.value)
+					}
+				})
+			}
+			//模式切换
+			const autoControl = () => {
+				console.log(autoStatus.value)
+				autoStatus.value = !autoStatus.value
+				uni.request({
+					url: 'http://10.149.3.126:8888/autoControl',
+					method: 'POST',
+					data: JSON.stringify({
+						autoStatus: autoStatus.value
+					}),
+					success() {
+						if (autoStatus.value == true) {
+							modelBtnText.value = "自动模式"
+						} else {
+							modelBtnText.value = "手动模式"
+						}
+						console.log(autoStatus.value)
+						console.log('切换成功')
+					}
+				})
+			}
+			//定时喂食
+			const TimingFeed = () => {
+				console.log(servoTime.value)
+				uni.request({
+					url: 'http://10.149.3.126:8888/TimingFeed',
+					method: 'POST',
+					data: JSON.stringify({
+						servoTime: servoTime.value
+					}),
+					success() {
+						console.log(`将在${servoTime.value}小时后喂食`)
+					}
+				})
+			}
+			//刷新
+			const Reflash = () => {
 				uni.request({
 					url: 'http://10.149.3.126:8888/mqtt',
 					method: 'POST',
@@ -166,15 +215,25 @@
 				return Y + M + D + h + m + s;
 			}
 
-
-
 			return {
 				temp,
 				time,
 				quality,
 				timestampToTime,
-				mqttStatus,Reflash,feedTime,TimingFeed
-
+				mqttStatus,
+				Reflash,
+				servoTime,
+				TimingFeed,
+				autoControl,
+				autoStatus,
+				modelBtnText,
+				lightBtnText,
+				lightStatus,
+				lightControl,
+				pumpBtnText,
+				pumpControl,
+				pumpStatus
+				
 			}
 		}
 	}
@@ -256,20 +315,21 @@
 			flex: 1;
 			display: flex;
 			justify-content: space-around;
+
 			.controlAuto {
 				border-radius: 4px;
 				width: 365rpx;
 				box-shadow: rgb(0 0 0 / 8%) 0px 0px 3px 1px;
 			}
-		
+
 
 			.controlManual {
 				border-radius: 4px;
 				box-shadow: rgb(0 0 0 / 8%) 0px 0px 3px 1px;
 				width: 365rpx;
 				height: 100%;
-			
-				
+
+
 			}
 		}
 

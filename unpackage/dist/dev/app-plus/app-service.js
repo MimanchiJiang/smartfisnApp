@@ -387,8 +387,8 @@ if (uni.restoreGlobal) {
       vue.ref();
       vue.ref();
       const mqttStatus = vue.ref("");
-      vue.ref(true);
-      const feedTime = vue.ref(2);
+      const autoStatus = vue.ref(true);
+      const servoTime = vue.ref(2);
       onShow(() => {
         uni.request({
           url: "http://10.149.3.126:8888/mqtt",
@@ -399,7 +399,7 @@ if (uni.restoreGlobal) {
             } else {
               mqttStatus.value = false;
             }
-            formatAppLog("log", "at pages/equipment/equipment.vue:96", mqttStatus.value);
+            formatAppLog("log", "at pages/equipment/equipment.vue:95", mqttStatus.value);
           }
         });
       });
@@ -418,19 +418,33 @@ if (uni.restoreGlobal) {
       });
       onHide(() => {
         clearInterval(timer.value);
-        formatAppLog("log", "at pages/equipment/equipment.vue:117", "\u5B9A\u65F6\u5668\u88AB\u524A\u9664\u4E86");
+        formatAppLog("log", "at pages/equipment/equipment.vue:116", "\u5B9A\u65F6\u5668\u88AB\u524A\u9664\u4E86");
       });
+      const autoControl = () => {
+        formatAppLog("log", "at pages/equipment/equipment.vue:120", autoStatus.value);
+        autoStatus.value = !autoStatus.value;
+        uni.request({
+          url: "http://10.149.3.126:8888/autoControl",
+          method: "POST",
+          data: JSON.stringify({
+            autoStatus: autoStatus.value
+          }),
+          success() {
+            formatAppLog("log", "at pages/equipment/equipment.vue:129", autoStatus.value);
+            formatAppLog("log", "at pages/equipment/equipment.vue:130", "\u5207\u6362\u6210\u529F");
+          }
+        });
+      };
       const TimingFeed = () => {
-        formatAppLog("log", "at pages/equipment/equipment.vue:130", feedTime.value);
+        formatAppLog("log", "at pages/equipment/equipment.vue:136", servoTime.value);
         uni.request({
           url: "http://10.149.3.126:8888/TimingFeed",
           method: "POST",
-          data: {
-            feedTime: feedTime.value
-          },
-          header: { "content-type": "application/json" },
+          data: JSON.stringify({
+            servoTime: servoTime.value
+          }),
           success() {
-            formatAppLog("log", "at pages/equipment/equipment.vue:140", `\u5C06\u5728${feedTime.value}\u5C0F\u65F6\u540E\u5582\u98DF`);
+            formatAppLog("log", "at pages/equipment/equipment.vue:144", `\u5C06\u5728${servoTime.value}\u5C0F\u65F6\u540E\u5582\u98DF`);
           }
         });
       };
@@ -444,7 +458,7 @@ if (uni.restoreGlobal) {
             } else {
               mqttStatus.value = false;
             }
-            formatAppLog("log", "at pages/equipment/equipment.vue:154", mqttStatus.value);
+            formatAppLog("log", "at pages/equipment/equipment.vue:159", mqttStatus.value);
           }
         });
       };
@@ -465,8 +479,10 @@ if (uni.restoreGlobal) {
         timestampToTime,
         mqttStatus,
         Reflash,
-        feedTime,
-        TimingFeed
+        servoTime,
+        TimingFeed,
+        autoControl,
+        autoStatus
       };
     }
   };
@@ -513,12 +529,12 @@ if (uni.restoreGlobal) {
         vue.createElementVNode("view", { class: "controlAuto" }, [
           vue.createTextVNode(" \u81EA\u52A8/\u624B\u52A8\u6A21\u5F0F\u5207\u6362 "),
           vue.createElementVNode("button", {
-            onClick: _cache[0] || (_cache[0] = (...args) => _ctx.ModelChange && _ctx.ModelChange(...args))
+            onClick: _cache[0] || (_cache[0] = (...args) => $setup.autoControl && $setup.autoControl(...args))
           }, "\u81EA\u52A8\u6A21\u5F0F"),
           vue.createTextVNode(" \u5B9A\u65F6\u5582\u98DF "),
           vue.createVNode(_component_uni_number_box, {
-            modelValue: $setup.feedTime,
-            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.feedTime = $event),
+            modelValue: $setup.servoTime,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.servoTime = $event),
             min: 0,
             max: 9
           }, null, 8, ["modelValue"]),

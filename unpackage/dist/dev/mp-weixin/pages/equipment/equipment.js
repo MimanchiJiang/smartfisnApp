@@ -9,8 +9,8 @@ const _sfc_main = {
     common_vendor.ref();
     common_vendor.ref();
     const mqttStatus = common_vendor.ref("");
-    common_vendor.ref(true);
-    const feedTime = common_vendor.ref(2);
+    const autoStatus = common_vendor.ref(true);
+    const servoTime = common_vendor.ref(2);
     common_vendor.onShow(() => {
       common_vendor.index.request({
         url: "http://10.149.3.126:8888/mqtt",
@@ -42,17 +42,31 @@ const _sfc_main = {
       clearInterval(timer.value);
       console.log("\u5B9A\u65F6\u5668\u88AB\u524A\u9664\u4E86");
     });
+    const autoControl = () => {
+      console.log(autoStatus.value);
+      autoStatus.value = !autoStatus.value;
+      common_vendor.index.request({
+        url: "http://10.149.3.126:8888/autoControl",
+        method: "POST",
+        data: JSON.stringify({
+          autoStatus: autoStatus.value
+        }),
+        success() {
+          console.log(autoStatus.value);
+          console.log("\u5207\u6362\u6210\u529F");
+        }
+      });
+    };
     const TimingFeed = () => {
-      console.log(feedTime.value);
+      console.log(servoTime.value);
       common_vendor.index.request({
         url: "http://10.149.3.126:8888/TimingFeed",
         method: "POST",
-        data: {
-          feedTime: feedTime.value
-        },
-        header: { "content-type": "application/json" },
+        data: JSON.stringify({
+          servoTime: servoTime.value
+        }),
         success() {
-          console.log(`\u5C06\u5728${feedTime.value}\u5C0F\u65F6\u540E\u5582\u98DF`);
+          console.log(`\u5C06\u5728${servoTime.value}\u5C0F\u65F6\u540E\u5582\u98DF`);
         }
       });
     };
@@ -87,8 +101,10 @@ const _sfc_main = {
       timestampToTime,
       mqttStatus,
       Reflash,
-      feedTime,
-      TimingFeed
+      servoTime,
+      TimingFeed,
+      autoControl,
+      autoStatus
     };
   }
 };
@@ -117,12 +133,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "\u6E29\u5EA6\u4F20\u611F\u5668",
       thumbnail: "../../static/temperature.png"
     }),
-    h: common_vendor.o((...args) => _ctx.ModelChange && _ctx.ModelChange(...args)),
-    i: common_vendor.o(($event) => $setup.feedTime = $event),
+    h: common_vendor.o((...args) => $setup.autoControl && $setup.autoControl(...args)),
+    i: common_vendor.o(($event) => $setup.servoTime = $event),
     j: common_vendor.p({
       min: 0,
       max: 9,
-      modelValue: $setup.feedTime
+      modelValue: $setup.servoTime
     }),
     k: common_vendor.o((...args) => $setup.TimingFeed && $setup.TimingFeed(...args)),
     l: common_vendor.o((...args) => $setup.Reflash && $setup.Reflash(...args))
