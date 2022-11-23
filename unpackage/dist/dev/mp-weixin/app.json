@@ -1,0 +1,31 @@
+{
+  "pages": [
+    "pages/equipment/equipment",
+    "pages/control/control",
+    "pages/history/history",
+    "pages/login/login"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "智能鱼缸",
+    "navigationBarBackgroundColor": "#00aaff",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "text": "数据",
+        "pagePath": "pages/equipment/equipment",
+        "iconPath": "static/data.png",
+        "selectedIconPath": "static/data-active.png"
+      },
+      {
+        "text": "历史",
+        "pagePath": "pages/history/history",
+        "iconPath": "static/history.png",
+        "selectedIconPath": "static/history-active.png"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

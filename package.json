@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "element-plus": "^2.2.22"
+    "@qiun/ucharts": "^2.4.4-20221102"
   }
 }

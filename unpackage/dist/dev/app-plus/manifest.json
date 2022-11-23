@@ -34,14 +34,13 @@
     },
     "popGesture": "close",
     "launchwebview": {
-      "render": "always",
       "id": "1",
       "kernel": "WKWebview"
     },
     "statusbar": {
       "immersed": "supportedDevice",
       "style": "light",
-      "background": "#F8F8F8"
+      "background": "#00aaff"
     },
     "usingComponents": true,
     "nvueStyleCompiler": "uni-app",
@@ -79,6 +78,12 @@
       "enable": false
     },
     "allowsInlineMediaPlayback": true,
+    "safearea": {
+      "background": "#FFFFFF",
+      "bottom": {
+        "offset": "auto"
+      }
+    },
     "uni-app": {
       "control": "uni-v3",
       "vueVersion": "3",
@@ -89,6 +94,37 @@
         "flex-direction": "column"
       },
       "nvueLaunchMode": "normal"
+    },
+    "tabBar": {
+      "position": "bottom",
+      "color": "#999",
+      "selectedColor": "#007aff",
+      "borderStyle": "rgba(0,0,0,0.4)",
+      "blurEffect": "none",
+      "fontSize": "10px",
+      "iconWidth": "24px",
+      "spacing": "3px",
+      "height": "50px",
+      "list": [
+        {
+          "text": "数据",
+          "pagePath": "pages/equipment/equipment",
+          "iconPath": "/static/data.png",
+          "selectedIconPath": "/static/data-active.png"
+        },
+        {
+          "text": "历史",
+          "pagePath": "pages/history/history",
+          "iconPath": "/static/history.png",
+          "selectedIconPath": "/static/history-active.png"
+        }
+      ],
+      "selectedIndex": 0,
+      "shown": true,
+      "child": [
+        "lauchwebview"
+      ],
+      "selected": 0
     }
   },
   "launch_path": "__uniappview.html"

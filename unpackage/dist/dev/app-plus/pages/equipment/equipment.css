@@ -1,0 +1,341 @@
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.uni-card[data-v-19622063] {
+  margin: 10px;
+  padding: 0 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+  background-color: #fff;
+  flex: 1;
+}
+.uni-card .uni-card__cover[data-v-19622063] {
+  position: relative;
+  margin-top: 10px;
+  flex-direction: row;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.uni-card .uni-card__cover .uni-card__cover-image[data-v-19622063] {
+  flex: 1;
+}
+.uni-card .uni-card__header[data-v-19622063] {
+  display: flex;
+  border-bottom: 1px #EBEEF5 solid;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  overflow: hidden;
+}
+.uni-card .uni-card__header .uni-card__header-box[data-v-19622063] {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+.uni-card .uni-card__header .uni-card__header-avatar[data-v-19622063] {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.uni-card .uni-card__header .uni-card__header-avatar .uni-card__header-avatar-image[data-v-19622063] {
+  flex: 1;
+  width: 40px;
+  height: 40px;
+}
+.uni-card .uni-card__header .uni-card__header-content[data-v-19622063] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  overflow: hidden;
+}
+.uni-card .uni-card__header .uni-card__header-content .uni-card__header-content-title[data-v-19622063] {
+  font-size: 15px;
+  color: #3a3a3a;
+}
+.uni-card .uni-card__header .uni-card__header-content .uni-card__header-content-subtitle[data-v-19622063] {
+  font-size: 12px;
+  margin-top: 5px;
+  color: #909399;
+}
+.uni-card .uni-card__header .uni-card__header-extra[data-v-19622063] {
+  line-height: 12px;
+}
+.uni-card .uni-card__header .uni-card__header-extra .uni-card__header-extra-text[data-v-19622063] {
+  font-size: 12px;
+  color: #909399;
+}
+.uni-card .uni-card__content[data-v-19622063] {
+  padding: 10px;
+  font-size: 14px;
+  color: #6a6a6a;
+  line-height: 22px;
+}
+.uni-card .uni-card__actions[data-v-19622063] {
+  font-size: 12px;
+}
+.uni-card--border[data-v-19622063] {
+  border: 1px solid #EBEEF5;
+}
+.uni-card--shadow[data-v-19622063] {
+  position: relative;
+  box-shadow: 0 0px 6px 1px rgba(165, 165, 165, 0.2);
+}
+.uni-card--full[data-v-19622063] {
+  margin: 0;
+  border-left-width: 0;
+  border-left-width: 0;
+  border-radius: 0;
+}
+.uni-card--full[data-v-19622063]:after {
+  border-radius: 0;
+}
+.uni-ellipsis[data-v-19622063] {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.uni-numbox[data-v-dd94a2a8] {
+  display: flex;
+  flex-direction: row;
+}
+.uni-numbox-btns[data-v-dd94a2a8] {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  background-color: #f5f5f5;
+}
+.uni-numbox__value[data-v-dd94a2a8] {
+  margin: 0 2px;
+  background-color: #f5f5f5;
+  width: 40px;
+  height: 26px;
+  text-align: center;
+  font-size: 14px;
+  border-left-width: 0;
+  border-right-width: 0;
+  color: #333;
+}
+.uni-numbox__minus[data-v-dd94a2a8] {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+.uni-numbox__plus[data-v-dd94a2a8] {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+.uni-numbox--text[data-v-dd94a2a8] {
+  line-height: 20px;
+  font-size: 20px;
+  font-weight: 300;
+  color: #333;
+}
+.uni-numbox .uni-numbox--disabled[data-v-dd94a2a8] {
+  color: #c0c0c0 !important;
+}
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+@font-face {
+  font-family: 'iconfont';  /* Project id 3282087 */
+  src: url('https://at.alicdn.com/t/c/font_3282087_fhgwuobms6.woff2?t=1666889078938') format('woff2'),
+       url('https://at.alicdn.com/t/c/font_3282087_fhgwuobms6.woff?t=1666889078938') format('woff'),
+       url('https://at.alicdn.com/t/c/font_3282087_fhgwuobms6.ttf?t=1666889078938') format('truetype');
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-nodejs:before {
+  content: "\e729";
+}
+.icon-Fish:before {
+  content: "\ed11";
+}
+.icon-Fish1:before {
+  content: "\e920";
+}
+.icon-back:before {
+  content: "\e679";
+}
+.icon-logo:before {
+  content: "\e68d";
+}
+.icon-xuexi:before {
+  content: "\e62e";
+}
+.icon-Vue:before {
+  content: "\e799";
+}
+.icon-typescript:before {
+  content: "\e6a3";
+}
+.icon-light:before {
+  content: "\e625";
+}
+.icon-xue:before {
+  content: "\e600";
+}
+.icon-caidan:before {
+  content: "\eaf1";
+}
+.icon-a-pinglunxianxing:before {
+  content: "\e628";
+}
+.icon-moneybagfill:before {
+  content: "\e7ce";
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.box .TopBar {
+  height: 3.125rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.box .TopBar .logo {
+  height: 100%;
+  width: 3.4375rem;
+  background-image: url(../../static/Fish.png);
+  background-size: 100% 100%;
+}
+.box .TopBar .connectStatus {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box .TopBar .connectStatus .mqtt-status-greenCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: green;
+  background-image: radial-gradient(lime, transparent);
+  background-size: 5px 5px;
+}
+.box .TopBar .connectStatus .mqtt-status-redCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #dd0303;
+  background-image: radial-gradient(#ff9900, transparent);
+  background-size: 5px 5px;
+}
+.box .TopBar .reflash {
+  height: 100%;
+}
+.box .showData {
+  height: 18.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.box .showData .showDataQuality {
+  width: 90%;
+  height: 50%;
+}
+.box .showData .showDataTemp {
+  width: 90%;
+  height: 50%;
+}
+.box .control {
+  width: 23.4375rem;
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+}
+.box .control .controlAuto {
+  border-radius: 4px;
+  width: 11.40625rem;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 3px 1px;
+}
+.box .control .controlManual {
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 3px 1px;
+  width: 11.40625rem;
+  height: 100%;
+}
