@@ -10,7 +10,10 @@
 			"path": "pages/control/control"
 
 		}, {
-			"path": "pages/history/history"
+			"path": "pages/history/history",
+			"style": {
+				"enablePullDownRefresh": true
+			}
 
 		},
 		{

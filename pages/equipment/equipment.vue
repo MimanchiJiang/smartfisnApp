@@ -35,22 +35,48 @@
 		</view>
 		<view class="control">
 			<view class="controlAuto">
-				自动/手动模式切换
-				<button @click="autoControl"  v-text="modelBtnText"></button>
-				定时喂食
-				<uni-number-box v-model="servoTime" :min="0" :max="9"></uni-number-box>
-				<button @click="TimingFeed">点击投喂</button>
-				<view class="reflash">
-					<button @click="Reflash">刷新</button>
+				<view class="controlAutoText">
+					自动/手动模式切换
 				</view>
-			</view>
+				<button @click="autoControl" v-text="modelBtnText"></button>
+				<uni-popup ref="autoControlPopupDom" type="message">
+					<uni-popup-message :type="autoControlMessageType" :message="autoControlText" duration="2000">
+					</uni-popup-message>
+				</uni-popup>
+				<view class="timingFeedText">
+					定时喂食
+				</view>
+				<view class="numberBox">
+					<uni-number-box class="numberBoxContent" v-model="servoTime" :min="0" :max="9"></uni-number-box>
+				</view>
+				<button @click="TimingFeed" class="TimingFeed">点击投喂</button>
+				<uni-popup ref="timingFeedControlPopupDom" type="message">
+					<uni-popup-message :type="timingFeedMessageType" :message="timingFeedText" duration="2000">
+					</uni-popup-message>
+				</uni-popup>
 
+			</view>
 			<view class="controlManual">
 				<view class=" controlManualContent">
-					灯带开关
+					<view class="lightControlText">
+						灯带开关
+					</view>
 					<button @click="lightControl" v-text="lightBtnText"></button>
-					水泵开关
+					<uni-popup ref="lightControlPopupDom" type="message">
+						<uni-popup-message :type="lightControlMessageType" :message="lightText" duration="2000">
+						</uni-popup-message>
+					</uni-popup>
+					<view class="pumpControlText">
+						水泵开关
+					</view>
 					<button @click="pumpControl" v-text="pumpBtnText"></button>
+					<uni-popup ref="pumpControlPopupDom" type="message">
+						<uni-popup-message :type="pumpControlMessageType" :message="pumpText" duration="2000">
+						</uni-popup-message>
+					</uni-popup>
+					<view class="reflash">
+						<button @click="Reflash">刷新</button>
+					</view>
 				</view>
 
 			</view>
@@ -82,9 +108,34 @@
 			const lightStatus = ref(false)
 			const pumpStatus = ref(false)
 			const servoTime = ref(2)
-			const modelBtnText = ref('自动模式')
+			const modelBtnText = ref('设备处于自动模式')
 			const lightBtnText = ref('开灯')
 			const pumpBtnText = ref('开水泵')
+			const autoControlPopupDom = ref()
+			const pumpText = ref()
+			const lightText = ref()
+			const timingFeedText = ref()
+			const autoControlText = ref()
+			const timingFeedMessageType = ref("success")
+			const lightControlMessageType = ref("success")
+			const pumpControlMessageType = ref("success")
+			const autoControlMessageType = ref("success")
+			const lightControlPopupDom = ref()
+			const pumpControlPopupDom = ref()
+			const timingFeedControlPopupDom = ref()
+
+			const autoControlPopupOpen = () => {
+				autoControlPopupDom.value.open('top')
+			}
+			const lightControlPopupOpen = () => {
+				lightControlPopupDom.value.open('top')
+			}
+			const pumpControlPopupOpen = () => {
+				pumpControlPopupDom.value.open('top')
+			}
+			const timingFeedControlPopupOpen = () => {
+				timingFeedControlPopupDom.value.open('top')
+			}
 
 			onShow(() => {
 				uni.request({
@@ -120,37 +171,61 @@
 				console.log('定时器被削除了')
 			})
 			//水泵控制
-			const pumpControl = ()=>{
-				console.log("切换前："+pumpStatus.value)
+			const pumpControl = () => {
+				console.log("切换前：" + pumpStatus.value)
 				pumpStatus.value = !pumpStatus.value
 				uni.request({
-					url:'http://10.149.3.126:8888/pump',
-					method:'POST',
-					data:JSON.stringify({pump:pumpStatus.value}),
+					url: 'http://10.149.3.126:8888/pump',
+					method: 'POST',
+					data: JSON.stringify({
+						pump: pumpStatus.value
+					}),
 					success() {
-						if(pumpStatus.value == true){
+						if (pumpStatus.value == true) {
 							pumpBtnText.value = "关水泵"
-						}else{
+							pumpText.value = '水泵已开启'
+							pumpControlMessageType.value = 'success'
+							pumpControlPopupOpen()
+						} else {
 							pumpBtnText.value = "开水泵"
+							pumpText.value = '水泵已关闭'
+							pumpControlMessageType.value = 'success'
+							pumpControlPopupOpen()
 						}
+					},
+					fail() {
+						console.log('投喂失败！请刷新重试')
+						timingFeedText.value = '投喂失败！请刷新重试'
 					}
 				})
 			}
 			//灯带控制
-			const lightControl = () =>{
-				console.log("切换前："+lightStatus.value)
+			const lightControl = () => {
+				console.log("切换前：" + lightStatus.value)
 				lightStatus.value = !lightStatus.value
 				uni.request({
-					url:'http://10.149.3.126:8888/light',
-					method:'POST',
-					data:JSON.stringify({light:lightStatus.value}),
+					url: 'http://10.149.3.126:8888/light',
+					method: 'POST',
+					data: JSON.stringify({
+						light: lightStatus.value
+					}),
 					success() {
-						if(lightStatus.value == true){
+						if (lightStatus.value == true) {
 							lightBtnText.value = "关灯"
-						}else{
+							lightText.value = '灯光已开启'
+							lightControlMessageType.value = "success"
+							lightControlPopupOpen()
+						} else {
 							lightBtnText.value = "开灯"
+							lightText.value = '灯光已关闭'
+							lightControlMessageType.value = "success"
+							lightControlPopupOpen()
 						}
-						console.log("切换后："+lightStatus.value)
+					},
+					fail() {
+						lightText.value = '灯光控制失败，请重试！'
+						lightControlMessageType.value = 'error'
+						lightControlPopupOpen()
 					}
 				})
 			}
@@ -166,12 +241,18 @@
 					}),
 					success() {
 						if (autoStatus.value == true) {
-							modelBtnText.value = "自动模式"
+							modelBtnText.value = "设备处于自动模式"
 						} else {
-							modelBtnText.value = "手动模式"
+							modelBtnText.value = "设备处于手动模式"
 						}
-						console.log(autoStatus.value)
-						console.log('切换成功')
+						autoControlMessageType.value = "success"
+						autoControlText.value = "模式切换成功"
+						autoControlPopupOpen()
+					},
+					fail() {
+						autoControlMessageType.value = "error"
+						autoControlText.value = "模式切换失败"
+						autoControlPopupOpen()
 					}
 				})
 			}
@@ -185,7 +266,14 @@
 						servoTime: servoTime.value
 					}),
 					success() {
-						console.log(`将在${servoTime.value}小时后喂食`)
+						timingFeedMessageType.value = "success"
+						timingFeedText.value = `投喂成功！将在${servoTime.value}小时后喂食`
+						timingFeedControlPopupOpen()
+					},
+					fail() {
+						timingFeedMessageType.value = "error"
+						timingFeedText.value = `投喂失败！请刷新后重试`
+						timingFeedControlPopupOpen()
 					}
 				})
 			}
@@ -204,6 +292,22 @@
 					}
 				})
 			}
+			//下拉刷新
+			onPullDownRefresh(() => {
+				uni.request({
+					url: 'http://10.149.3.126:8888/mqtt',
+					method: 'POST',
+					success(res) {
+						if (res.data == 'connected') {
+							mqttStatus.value = true
+						} else {
+							mqttStatus.value = false
+						}
+						console.log(mqttStatus.value)
+						uni.stopPullDownRefresh()
+					}
+				})
+			})
 			const timestampToTime = (timestamp) => {
 				var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
 				var Y = date.getFullYear() + '-';
@@ -232,8 +336,20 @@
 				lightControl,
 				pumpBtnText,
 				pumpControl,
-				pumpStatus
-				
+				pumpStatus,
+				autoControlPopupDom,
+				pumpText,
+				lightText,
+				timingFeedText,
+				autoControlText,
+				timingFeedMessageType,
+				lightControlMessageType,
+				pumpControlMessageType,
+				autoControlMessageType,
+				timingFeedControlPopupDom,
+				lightControlPopupDom,
+				pumpControlPopupDom
+
 			}
 		}
 	}
@@ -320,6 +436,35 @@
 				border-radius: 4px;
 				width: 365rpx;
 				box-shadow: rgb(0 0 0 / 8%) 0px 0px 3px 1px;
+
+
+				.controlAutoText {
+					text-align: center;
+					font-size: 35rpx;
+					padding: 20rpx 0;
+				}
+
+				.timingFeedText {
+					text-align: center;
+					font-size: 35rpx;
+					padding: 20rpx 0;
+				}
+
+				.TimingFeed {
+					margin-top: 20rpx;
+				}
+
+				.numberBox {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					.numberBoxContent {
+						width: 200rpx;
+
+					}
+				}
+
 			}
 
 
@@ -328,7 +473,6 @@
 				box-shadow: rgb(0 0 0 / 8%) 0px 0px 3px 1px;
 				width: 365rpx;
 				height: 100%;
-
 
 			}
 		}
