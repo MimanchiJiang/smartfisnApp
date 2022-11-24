@@ -17,7 +17,7 @@
 						数值:{{quality}}
 					</view>
 					<view>
-						时间:{{timestampToTime(time)}}
+						时间:{{timeShift(time)}}
 					</view>
 				</uni-card>
 			</view>
@@ -27,7 +27,7 @@
 						数值:{{temp}}
 					</view>
 					<view>
-						时间:{{timestampToTime(time)}}
+						时间:{{timeShift(time)}}
 					</view>
 				</uni-card>
 
@@ -99,31 +99,41 @@
 
 	export default {
 		setup() {
+			//数值
 			const quality = ref('')
 			const temp = ref('')
 			const time = ref('')
+			//定时器
 			const timer = ref("")
+			//连接状态
 			const mqttStatus = ref('')
 			const autoStatus = ref(true)
 			const lightStatus = ref(false)
 			const pumpStatus = ref(false)
-			const servoTime = ref(2)
+			//定时喂食默认值
+			const servoTime = ref(1)
+			//按钮文本内容
 			const modelBtnText = ref('设备处于自动模式')
 			const lightBtnText = ref('开灯')
 			const pumpBtnText = ref('开水泵')
+			//消息提示标签Dom
 			const autoControlPopupDom = ref()
+			const lightControlPopupDom = ref()
+			const pumpControlPopupDom = ref()
+			const timingFeedControlPopupDom = ref()
+			//消息提示文本内容
 			const pumpText = ref()
 			const lightText = ref()
 			const timingFeedText = ref()
 			const autoControlText = ref()
+			//消息提示类型
 			const timingFeedMessageType = ref("success")
 			const lightControlMessageType = ref("success")
 			const pumpControlMessageType = ref("success")
 			const autoControlMessageType = ref("success")
-			const lightControlPopupDom = ref()
-			const pumpControlPopupDom = ref()
-			const timingFeedControlPopupDom = ref()
 
+
+			//消息提示开启函数
 			const autoControlPopupOpen = () => {
 				autoControlPopupDom.value.open('top')
 			}
@@ -136,6 +146,7 @@
 			const timingFeedControlPopupOpen = () => {
 				timingFeedControlPopupDom.value.open('top')
 			}
+			
 
 			onShow(() => {
 				uni.request({
@@ -308,7 +319,7 @@
 					}
 				})
 			})
-			const timestampToTime = (timestamp) => {
+			const timeShift = (timestamp) => {
 				var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
 				var Y = date.getFullYear() + '-';
 				var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
@@ -323,21 +334,20 @@
 				temp,
 				time,
 				quality,
-				timestampToTime,
-				mqttStatus,
+				timeShift,
 				Reflash,
 				servoTime,
 				TimingFeed,
 				autoControl,
+				mqttStatus,
 				autoStatus,
+				pumpStatus,
+				lightStatus,
 				modelBtnText,
 				lightBtnText,
-				lightStatus,
-				lightControl,
 				pumpBtnText,
+				lightControl,
 				pumpControl,
-				pumpStatus,
-				autoControlPopupDom,
 				pumpText,
 				lightText,
 				timingFeedText,
@@ -348,7 +358,8 @@
 				autoControlMessageType,
 				timingFeedControlPopupDom,
 				lightControlPopupDom,
-				pumpControlPopupDom
+				pumpControlPopupDom,
+				autoControlPopupDom
 
 			}
 		}
@@ -467,7 +478,6 @@
 
 			}
 
-
 			.controlManual {
 				border-radius: 4px;
 				box-shadow: rgb(0 0 0 / 8%) 0px 0px 3px 1px;
@@ -476,6 +486,5 @@
 
 			}
 		}
-
 	}
 </style>
