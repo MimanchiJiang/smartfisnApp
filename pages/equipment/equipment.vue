@@ -62,6 +62,7 @@
 						灯带开关
 					</view>
 					<button @click="lightControl" v-text="lightBtnText"></button>
+					<button @click="lightShowControl">照明模式{{lightShowState}}</button>
 					<uni-popup ref="lightControlPopupDom" type="message">
 						<uni-popup-message :type="lightControlMessageType" :message="lightText" duration="2000">
 						</uni-popup-message>
@@ -109,6 +110,7 @@
 			const mqttStatus = ref('')
 			const autoStatus = ref(true)
 			const lightStatus = ref(false)
+			const lightShowState = ref(1)
 			const pumpStatus = ref(false)
 			//定时喂食默认值
 			const servoTime = ref(1)
@@ -146,11 +148,14 @@
 			const timingFeedControlPopupOpen = () => {
 				timingFeedControlPopupDom.value.open('top')
 			}
-			
+
 
 			onShow(() => {
 				uni.request({
-					url: 'http://10.149.3.126:8888/mqtt',
+					//手机热点
+					url: 'http://192.168.43.218:8888/mqtt',
+					//宽带
+					// url: 'http://10.149.3.126:8888/mqtt',
 					method: 'POST',
 					success(res) {
 						if (res.data == 'connected') {
@@ -162,16 +167,52 @@
 					}
 				})
 			})
-
+			
 			onReady(() => {
 				timer.value = setInterval(() => {
 					uni.request({
-						url: 'http://10.149.3.126:8888/data',
+						//手机热点
+						url: 'http://192.168.43.218:8888/data',
+						//宽带
+						// url: 'http://10.149.3.126:8888/data',
 						method: 'POST',
 						success: (res) => {
 							temp.value = res.data[0].temp
-							quality.value = res.data[0].quality
+							if(res.data[0].quality > 25){
+								quality.value = '正常'
+							}
+							if(res.data[0].quality <25 && res.data[0].quality > 10){
+								quality.value = '有些浑浊'
+							}
+							if(res.data[0].quality <10){
+								quality.value = '非常浑浊'
+							}
 							time.value = res.data[0].time
+							console.log(res)
+							if (res.data[0].light == '0') {
+								lightBtnText.value = '开灯'
+								lightStatus.value = false
+							}
+							if (res.data[0].light == '1') {
+								lightBtnText.value = '关灯'
+								lightStatus.value = true
+							}
+							if (res.data[0].pump == '0') {
+								pumpBtnText.value = '开启水泵'
+								pumpStatus.value = false
+							}
+							if (res.data[0].pump == '1') {
+								pumpBtnText.value = '关闭水泵'
+								pumpStatus.value = true
+							}
+							if (res.data[0].autoControl == '0') {
+								modelBtnText.value = '当前为手动模式'
+								autoStatus.value = false
+							}
+							if (res.data[0].autoControl == '1') {
+								modelBtnText.value = '当前为自动模式'
+								autoStatus.value = true
+							}
 						}
 					})
 				}, 1000)
@@ -181,12 +222,35 @@
 				clearInterval(timer.value)
 				console.log('定时器被削除了')
 			})
+			//灯带模式控制
+			const lightShowControl =()=>{
+				uni.request({
+					//手机热点
+					url: 'http://192.168.43.218:8888/lightState',
+					//宽带
+					// url: 'http://10.149.3.126:8888/mqtt',
+					method: 'POST',
+					data: JSON.stringify({
+						lightShowState: lightShowState.value
+					}),
+					success(res) {
+					}
+				})
+				 if (lightShowState.value < 3) {
+				                lightShowState.value++;
+				            } else {
+				                lightShowState.value = 1
+				            }
+			}
 			//水泵控制
 			const pumpControl = () => {
 				console.log("切换前：" + pumpStatus.value)
 				pumpStatus.value = !pumpStatus.value
 				uni.request({
-					url: 'http://10.149.3.126:8888/pump',
+					//手机热点
+					url: 'http://192.168.43.218:8888/pump',
+					//宽带
+					// url: 'http://10.149.3.126:8888/pump',
 					method: 'POST',
 					data: JSON.stringify({
 						pump: pumpStatus.value
@@ -215,7 +279,10 @@
 				console.log("切换前：" + lightStatus.value)
 				lightStatus.value = !lightStatus.value
 				uni.request({
-					url: 'http://10.149.3.126:8888/light',
+					//手机热点
+					url: 'http://192.168.43.218:8888/light',
+					//宽带
+					// url: 'http://10.149.3.126:8888/light',
 					method: 'POST',
 					data: JSON.stringify({
 						light: lightStatus.value
@@ -245,7 +312,10 @@
 				console.log(autoStatus.value)
 				autoStatus.value = !autoStatus.value
 				uni.request({
-					url: 'http://10.149.3.126:8888/autoControl',
+					//手机热点
+					url: 'http://192.168.43.218:8888/autoControl',
+					//宽带
+					// url: 'http://10.149.3.126:8888/autoControl',
 					method: 'POST',
 					data: JSON.stringify({
 						autoStatus: autoStatus.value
@@ -271,7 +341,10 @@
 			const TimingFeed = () => {
 				console.log(servoTime.value)
 				uni.request({
-					url: 'http://10.149.3.126:8888/TimingFeed',
+					//手机热点
+					url: 'http://192.168.43.218:8888/TimingFeed',
+					//宽带
+					// url: 'http://10.149.3.126:8888/TimingFeed ',
 					method: 'POST',
 					data: JSON.stringify({
 						servoTime: servoTime.value
@@ -291,7 +364,10 @@
 			//刷新
 			const Reflash = () => {
 				uni.request({
-					url: 'http://10.149.3.126:8888/mqtt',
+					//手机热点
+					url: 'http://192.168.43.218:8888/mqtt',
+					//宽带
+					// url: 'http://10.149.3.126:8888/mqtt ',
 					method: 'POST',
 					success(res) {
 						if (res.data == 'connected') {
@@ -306,7 +382,10 @@
 			//下拉刷新
 			onPullDownRefresh(() => {
 				uni.request({
-					url: 'http://10.149.3.126:8888/mqtt',
+					//手机热点
+					url: 'http://192.168.43.218:8888/mqtt',
+					//宽带
+					// url: 'http://10.149.3.126:8888/mqtt ',
 					method: 'POST',
 					success(res) {
 						if (res.data == 'connected') {
@@ -343,10 +422,12 @@
 				autoStatus,
 				pumpStatus,
 				lightStatus,
+				lightShowState,
 				modelBtnText,
 				lightBtnText,
 				pumpBtnText,
 				lightControl,
+				lightShowControl,
 				pumpControl,
 				pumpText,
 				lightText,

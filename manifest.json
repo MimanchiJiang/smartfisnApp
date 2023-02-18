@@ -65,24 +65,10 @@
 	"mp-toutiao": {
 		"usingComponents": true
 	},
-	// "h5": {
-	// 	"devServer": {
-	// 		"port": 8888, //浏览器运行端口
-	// 		"https": false,
-	// 		"proxy": {
-	// 			"/api": {
-	// 	 		"target": "http://10.149.3.126:8888",
-	// 				"changeOrigin": true,
-	// 				"secure": false,
-	// 				"pathRewrite": {
-	// 					"^/api": ""
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// },
+	
 	"uniStatistics": {
 		"enable": false
 	},
 	"vueVersion": "3"
+	
 }

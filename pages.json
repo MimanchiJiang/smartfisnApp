@@ -3,16 +3,15 @@
 		{
 			"path": "pages/equipment/equipment",
 			"style": {
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "智能鱼缸-操作界面"
 			}
-
-		}, {
-			"path": "pages/control/control"
 
 		}, {
 			"path": "pages/history/history",
 			"style": {
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "智能鱼缸-历史记录"
 			}
 
 		},
